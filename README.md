@@ -711,4 +711,140 @@ export default QuestionGenerator;
 - Menangani loading state dan error yang mungkin terjadi selama proses
 
 Kode-kode di atas merupakan inti dari sistem ExamExpert AI dengan penjelasan detail untuk setiap fungsi, menunjukkan bagaimana sistem mengintegrasikan AI untuk menghasilkan pertanyaan, mengelola kuis, dan memungkinkan siswa untuk berpartisipasi dalam kuis.
+
+
+
+        
+
+
+          
+Saya akan memeriksa file-file utama dalam proyek ExamExpert AI untuk memberikan penjelasan dalam bentuk kalimat tentang fungsi-fungsi utama sistem.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\controllers\question.controller.js
+          
+Saya akan memeriksa file perplexity.js untuk memahami bagaimana sistem menggunakan AI untuk menghasilkan pertanyaan.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\utils\perplexity.js
+          
+Saya akan memeriksa file quiz.controller.js untuk memahami bagaimana sistem mengelola kuis.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\controllers\quiz.controller.js
+          
+Saya akan memeriksa file student.controller.js untuk memahami bagaimana sistem mengelola interaksi siswa dengan kuis.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\controllers\student.controller.js
+          
+Saya akan memeriksa file question.model.js untuk memahami struktur data pertanyaan dalam sistem.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\models\question.model.js
+          
+Saya akan memeriksa file quiz.model.js untuk memahami struktur data kuis dalam sistem.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\models\quiz.model.js
+          
+Saya akan memeriksa file user.model.js untuk memahami struktur data pengguna dalam sistem.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\models\user.model.js
+          
+Saya akan memeriksa file auth.controller.js untuk memahami bagaimana sistem mengelola autentikasi pengguna.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\controllers\auth.controller.js
+          
+Saya akan memeriksa file letterTemplates.js untuk memahami bagaimana sistem mengelola notifikasi email.
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: d:\Project\Tugas Akhir\backend-examexpert-ai\src\utils\letterTemplates.js
+          
+# Penjelasan Fungsi-Fungsi Utama ExamExpert AI
+
+Berikut adalah penjelasan dalam bentuk kalimat untuk fungsi-fungsi utama dalam sistem ExamExpert AI:
+
+## Fungsi Generasi Pertanyaan dengan AI (question.controller.js)
+
+Fungsi `generateAIQuestions` dalam sistem ExamExpert AI bertugas menghasilkan pertanyaan menggunakan kecerdasan buatan. Fungsi ini menerima parameter seperti mata pelajaran, kelas, bab, jenis soal, jumlah soal, dan tingkat kesulitan dari pengguna. Setelah memvalidasi parameter yang diperlukan, fungsi ini memanggil utilitas Perplexity AI untuk menghasilkan pertanyaan sesuai dengan kriteria yang diminta. Pertanyaan yang dihasilkan kemudian disimpan dalam database dengan status "pending_review" yang menandakan bahwa pertanyaan tersebut perlu ditinjau sebelum digunakan dalam kuis. Fungsi ini hanya dapat diakses oleh pengguna dengan peran guru atau admin.
+
+## Fungsi Integrasi dengan Perplexity API (perplexity.js)
+
+Fungsi `generateQuestions` dalam file perplexity.js menangani komunikasi dengan API Perplexity untuk menghasilkan pertanyaan dalam bahasa Indonesia. Fungsi ini mengambil konfigurasi API dari variabel lingkungan, kemudian menyusun prompt yang sesuai berdasarkan jenis pertanyaan yang diminta (pilihan ganda, benar/salah, atau esai). Prompt ini berisi instruksi terperinci tentang format JSON yang diharapkan untuk setiap jenis pertanyaan. Setelah mengirim permintaan ke API Perplexity, fungsi ini memproses respons yang diterima dan mengembalikan array pertanyaan yang telah diformat dengan benar. Fungsi ini juga menangani kesalahan yang mungkin terjadi selama proses komunikasi dengan API.
+
+## Fungsi Pembuatan Kuis (quiz.controller.js)
+
+Fungsi `createQuiz` memungkinkan guru atau admin untuk membuat kuis baru dalam sistem. Fungsi ini memvalidasi parameter kuis seperti judul, mata pelajaran, kelas, bab, dan daftar pertanyaan. Setelah memastikan semua pertanyaan yang dipilih ada dalam database, fungsi ini membuat entri kuis baru dengan kode akses yang dihasilkan secara otomatis. Kuis yang dibuat dikaitkan dengan pengguna yang membuatnya, dan informasi kuis ditambahkan ke daftar kuis yang dibuat oleh pengguna tersebut. Fungsi ini juga mengirimkan email konfirmasi kepada guru yang membuat kuis, yang berisi detail kuis termasuk kode akses yang dapat dibagikan kepada siswa.
+
+## Fungsi Bergabung dengan Kuis untuk Siswa (student.controller.js)
+
+Fungsi `joinQuiz` memungkinkan siswa untuk bergabung dengan kuis menggunakan kode akses. Fungsi ini memvalidasi kode akses yang dimasukkan, memeriksa apakah kuis aktif, dan memastikan kuis belum berakhir. Jika siswa sudah bergabung sebelumnya, fungsi ini mengembalikan detail kuis tanpa menambahkan siswa sebagai peserta baru. Jika siswa belum bergabung, fungsi ini menambahkan siswa ke daftar peserta kuis dengan status "joined". Detail kuis yang dikembalikan kepada siswa tidak menyertakan jawaban yang benar untuk menjaga integritas kuis.
+
+## Model Data Pertanyaan (question.model.js)
+
+Model `Question` mendefinisikan struktur data untuk pertanyaan dalam sistem. Model ini mencakup bidang-bidang penting seperti konten pertanyaan, jenis (pilihan ganda, benar/salah, esai), mata pelajaran, kelas, bab, tingkat kesulitan, pilihan jawaban, jawaban yang benar, penjelasan, pembuat pertanyaan, dan status. Model ini juga menyimpan informasi tentang persetujuan atau penolakan pertanyaan, termasuk siapa yang menyetujui atau menolak, kapan, dan alasan penolakan jika ada. Terdapat juga penanda apakah pertanyaan dihasilkan oleh AI dan daftar tag untuk kategorisasi. Model ini menggunakan indeks untuk pencarian yang efisien berdasarkan mata pelajaran, kelas, bab, jenis, dan tingkat kesulitan.
+
+## Model Data Kuis (quiz.model.js)
+
+Model `Quiz` mendefinisikan struktur data untuk kuis dalam sistem. Model ini mencakup bidang-bidang seperti judul, deskripsi, mata pelajaran, kelas, bab, daftar pertanyaan, pembuat kuis, kode akses yang dihasilkan secara otomatis, durasi, status aktif, tanggal mulai, dan tanggal berakhir. Model ini juga menyimpan daftar peserta kuis, yang mencakup informasi tentang setiap siswa yang bergabung, termasuk waktu bergabung, waktu mulai, status, dan jawaban yang diberikan. Untuk setiap jawaban, model menyimpan pertanyaan yang dijawab, jawaban yang dipilih, dan apakah jawaban tersebut benar.
+
+## Model Data Pengguna (user.model.js)
+
+Model `User` mendefinisikan struktur data untuk pengguna dalam sistem. Model ini mencakup bidang-bidang seperti nama, email, kata sandi (yang di-hash), peran (admin, guru, siswa), dan status. Model ini juga menyimpan informasi administratif seperti siapa yang menyetujui atau menolak pengguna, kapan, dan alasan penolakan jika ada. Untuk pengguna dengan peran guru, model menyimpan informasi tambahan seperti institusi, keahlian, pengalaman, dan dokumen verifikasi. Model ini juga menangani enkripsi kata sandi menggunakan bcrypt.
+
+## Fungsi Autentikasi (auth.controller.js)
+
+Fungsi `register` menangani pendaftaran pengguna baru dalam sistem. Fungsi ini memvalidasi data pengguna seperti nama, email, kata sandi, dan peran, memeriksa apakah pengguna sudah ada, dan membuat pengguna baru dengan peran default "siswa" jika tidak ada peran yang ditentukan. Setelah membuat pengguna, fungsi ini mengirimkan email selamat datang dan mengembalikan data pengguna beserta token JWT untuk autentikasi. Fungsi `generateToken` digunakan untuk membuat token JWT berdasarkan ID pengguna, yang digunakan untuk autentikasi dalam sistem.
+
+## Fungsi Notifikasi Email (letterTemplates.js)
+
+Fungsi `sendWelcomeLetter` mengirimkan email selamat datang kepada pengguna baru saat mereka mendaftar. Fungsi ini menghasilkan konten HTML yang disesuaikan berdasarkan peran pengguna (siswa, guru, atau admin), dengan penekanan pada fitur-fitur yang relevan untuk peran tersebut. Email ini memberikan pengantar tentang sistem ExamExpert AI dan membantu pengguna baru memahami fitur-fitur yang tersedia untuk mereka berdasarkan peran mereka.
         
